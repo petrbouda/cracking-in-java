@@ -14,6 +14,7 @@ import static org.openjdk.jcstress.annotations.Expect.FORBIDDEN;
 @Outcome(id = "8", expect = ACCEPTABLE, desc = "Seen the complete object.")
 @Outcome(expect = FORBIDDEN, desc = "Seeing partially constructed object.")
 @State
+@SuppressWarnings("ALL")
 public class OnlyOneInit {
     int v = 1;
 
@@ -36,8 +37,8 @@ public class OnlyOneInit {
 
     public static class MyObject {
         final int x1;
-        final int x2, x3, x4;
-        final int x5, x6, x7, x8;
+        int x2, x3, x4;
+        int x5, x6, x7, x8;
 
         public MyObject(int v) {
             x1 = v;

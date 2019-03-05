@@ -6,16 +6,17 @@ import org.openjdk.jcstress.annotations.Outcome;
 import org.openjdk.jcstress.annotations.State;
 import org.openjdk.jcstress.infra.results.I_Result;
 
-import static org.openjdk.jcstress.annotations.Expect.ACCEPTABLE;
-import static org.openjdk.jcstress.annotations.Expect.FORBIDDEN;
+import java.util.Arrays;
+
+import static org.openjdk.jcstress.annotations.Expect.*;
 
 @JCStressTest
 @Outcome(id = "-1", expect = ACCEPTABLE, desc = "Object is not seen yet.")
-@Outcome(id = "8", expect = ACCEPTABLE, desc = "Seen the complete object.")
-@Outcome(expect = FORBIDDEN, desc = "Seeing partially constructed object.")
+@Outcome(id = "7", expect = ACCEPTABLE, desc = "Seen the collection.")
+@Outcome(expect = FORBIDDEN, desc = "Seeing partially constructed collection.")
 @State
 @SuppressWarnings("ALL")
-public class FinalInit {
+public class Composition {
     int v = 1;
 
     MyObject o;
@@ -29,25 +30,35 @@ public class FinalInit {
     public void actor2(I_Result r) {
         MyObject o = this.o;
         if (o != null) {
-            r.r1 = o.x8 + o.x7 + o.x6 + o.x5 + o.x4 + o.x3 + o.x2 + o.x1;
+            r.r1 = Arrays.stream(o.innerObject.ints).sum();
         } else {
             r.r1 = -1;
         }
     }
 
     public static class MyObject {
-        final int x1, x2, x3, x4;
-        final int x5, x6, x7, x8;
+        public final InnerObject innerObject;
 
         public MyObject(int v) {
-            x1 = v;
-            x2 = v;
-            x3 = v;
-            x4 = v;
-            x5 = v;
-            x6 = v;
-            x7 = v;
-            x8 = v;
+            innerObject = new InnerObject(v);
+        }
+    }
+
+    public static class InnerObject {
+        int[] ints;
+
+        public InnerObject(int v) {
+            ints = new int[8];
+            ints[0] = v;
+            ints[1] = v;
+            ints[2] = v;
+            ints[3] = v;
+            ints[4] = v;
+            ints[5] = v;
+            ints[6] = v;
         }
     }
 }
+
+
+

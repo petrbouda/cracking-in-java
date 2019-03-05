@@ -14,6 +14,7 @@ import static org.openjdk.jcstress.annotations.Expect.ACCEPTABLE_INTERESTING;
 @Outcome(id = {"0", "1", "2", "3", "4", "5", "6", "7"}, expect = ACCEPTABLE_INTERESTING, desc = "Seeing partially constructed object.")
 @Outcome(id = "8", expect = ACCEPTABLE, desc = "Seen the complete object.")
 @State
+@SuppressWarnings("ALL")
 public class PlainInit {
     int v = 1;
 
